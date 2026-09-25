@@ -123,6 +123,15 @@ def median(values):
     return statistics.median(values) if values else None
 
 
+def metric_medians(posts):
+    """Median of each count over only the posts where that count is visible."""
+    summary = {}
+    for metric in ("reactions", "comments", "reposts"):
+        values = [p[metric] for p in posts if p[metric] is not None]
+        summary[metric] = {"posts": len(values), "median": median(values)}
+    return summary
+
+
 def analyze(rows):
     posts, seen = [], set()
     duplicates = 0
@@ -143,12 +152,15 @@ def analyze(rows):
         name: {"posts": len(values), "median_visible_interactions": median(values)}
         for name, values in sorted(groups.items())
     }
+    formats = defaultdict(list)
+    for post in posts:
+        formats[post["format"] or "unknown"].append(post)
     ranked = sorted(comparable, key=lambda p: p["visible_interactions"], reverse=True)
     caveats = []
     if len(posts) < 30:
         caveats.append("Fewer than 30 observed posts; patterns are directional.")
     if len(comparable) < len(posts):
-        caveats.append("Some posts lack at least one interaction component; excluded from total comparisons, not treated as zero.")
+        caveats.append("Some posts lack at least one interaction component; excluded from total comparisons, not treated as zero. metric_medians uses only the posts where each count is visible.")
     if len(dated) < len(posts):
         caveats.append("Posting frequency and period completeness cannot be established from all posts.")
     caveats.append("Public interactions are not impressions, engagement rate, clicks, leads, or conversions; sampling may be incomplete.")
@@ -159,6 +171,9 @@ def analyze(rows):
         "observed_date_range": {"first": min(dated) if dated else None, "last": max(dated) if dated else None},
         "median_visible_interactions": median([p["visible_interactions"] for p in comparable]),
         "by_format": by_format,
+        "metric_medians": metric_medians(posts),
+        "metric_medians_by_format": {name: {"posts": len(group), **metric_medians(group)}
+                                     for name, group in sorted(formats.items())},
         "top_observed_posts": [{"url": p["url"], "published_at": p["published_at"],
                                 "visible_interactions": p["visible_interactions"]} for p in ranked[:5]],
         "posts": posts, "caveats": caveats,
@@ -177,7 +192,7 @@ def main():
             json.dump(result, handle, ensure_ascii=False, indent=2)
             handle.write("\n")
     except (OSError, ValueError, csv.Error, json.JSONDecodeError) as exc:
-        parser.exit(1, f"Analysis failed: {exc}\nInstall Python 3 if 'py -3' and 'python' are unavailable.\n")
+        parser.exit(1, f"Analysis failed: {exc}\n")
     print(f"Analyzed {result['posts_observed']} posts; wrote {args.output}")
 
 
