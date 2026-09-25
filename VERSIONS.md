@@ -4,6 +4,7 @@ Current versions of all skills. Agents can compare against local versions to che
 
 | Skill | Version | Last Updated |
 |-------|---------|--------------|
+| 8signal-linkedin-growth-analyst | 1.0.0 | 2026-09-25 |
 | ab-testing | 2.0.0 | 2026-05-05 |
 | ad-creative | 2.8.0 | 2026-07-14 |
 | ai-seo | 2.2.0 | 2026-07-09 |
@@ -54,6 +55,10 @@ Current versions of all skills. Agents can compare against local versions to che
 | video | 2.1.0 | 2026-07-14 |
 
 ## Recent Changes
+
+### 2.10.0 (2026-09-25)
+
+- Added **8signal-linkedin-growth-analyst** for evidence-based audits of public third-party LinkedIn profiles and posts. Includes a Python standard-library analyzer for CSV/TSV/JSON exports, missing-metric coverage, real medians, URL deduplication, and Windows PowerShell usage.
 
 ### 2.9.0 (2026-07-15)
 

@@ -56,6 +56,7 @@ See each skill's **Related Skills** section for the full dependency map.
 <!-- SKILLS:START -->
 | Skill | Description |
 |-------|-------------|
+| [8signal-linkedin-growth-analyst](skills/8signal-linkedin-growth-analyst/) | Audit a public third-party LinkedIn profile and accessible posts with traceable evidence and content experiments. |
 | [ab-testing](skills/ab-testing/) | When the user wants to plan, design, or implement an A/B test or experiment, or build a growth experimentation program.... |
 | [ad-creative](skills/ad-creative/) | When the user wants to generate, iterate, or scale ad creative — headlines, descriptions, primary text, or full ad... |
 | [ads](skills/ads/) | When the user wants help with paid advertising campaigns on Google Ads, Meta (Facebook/Instagram), LinkedIn, Twitter/X,... |
@@ -274,6 +275,7 @@ You can also invoke skills directly:
 - `paywalls` - In-app upgrade moments
 
 ### Content & Copy
+- `8signal-linkedin-growth-analyst` - Public LinkedIn profile and content audit
 - `copywriting` - Marketing page copy
 - `copy-editing` - Edit and polish existing copy
 - `cold-email` - B2B cold outreach emails and sequences

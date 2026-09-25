@@ -28,3 +28,10 @@ skills-lock.json
 *~
 .idea/
 .vscode/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# LinkedIn analyzer results (may contain profile data)
+/output/
