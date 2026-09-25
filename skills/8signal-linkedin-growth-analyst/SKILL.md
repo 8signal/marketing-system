@@ -12,15 +12,17 @@ You are a content analyst. Produce a traceable audit of a public LinkedIn profil
 ## Gather evidence
 
 1. Accept the public profile URL, direct post URLs, or a CSV/TSV/JSON export. Inspect accessible profile elements and posts with available research tools. Record the original URL and observation date for each finding.
-2. For exports, read [input-schema.md](references/input-schema.md), then run the bundled script. From the repository root on Ruben's Windows machine, use PowerShell:
+2. For exports, read [input-schema.md](references/input-schema.md), then run the bundled analyzer, `scripts/analyze_posts.py` in this skill's own directory. When the skill is installed as a plugin, that is the installed skill folder (Claude Code shows it as the base directory when the skill loads), not the current project, so call the script by its full path. On Windows, in PowerShell:
 
    ```powershell
-   py -3 .\skills\8signal-linkedin-growth-analyst\scripts\analyze_posts.py --input "C:\Users\Ruben\Downloads\linkedin-posts.csv" --output ".\output\linkedin-audit.json"
+   $skill = "<this skill's directory>"
+   py -3 "$skill\scripts\analyze_posts.py" --input "$env:USERPROFILE\Downloads\linkedin-posts.csv" --output "$env:USERPROFILE\Downloads\linkedin-audit.json"
    ```
 
-   If the Python Launcher is absent but Python is installed, substitute `python` for `py -3`. Paths containing spaces must be quoted. Keep real exports and generated results outside Git; do not commit them.
+   If the Python Launcher is absent but Python is installed, substitute `python` for `py -3`. Quote paths that contain spaces. Keep real exports and generated results outside Git; do not commit them.
 3. If only a URL is provided, research publicly accessible pages and direct post links. Do not assume a search result is a complete history. Do not use personal sessions, cookies, hidden APIs, CAPTCHA bypass, or automated access through a barrier. A provider export is optional and must be supplied or configured for the project; never claim an integration exists when it does not.
-4. If posts cannot be accessed, deliver a profile-only audit with clear gaps. If even the profile is inaccessible, ask for public links or an export before making profile-specific findings.
+4. Record every post you read in full as one row of a CSV or JSON file with the fields in [input-schema.md](references/input-schema.md): `url`, `published_at`, `text`, `format`, `reactions`, `comments`, `reposts`. Copy each count exactly as displayed and leave it empty when the page doesn't show it; never enter 0 for a missing count. Leave `published_at` empty unless an absolute date is visible. Save the file outside Git and run the analyzer on it as in step 2, so every count and median in the audit comes from the script. If the posts come from different periods, such as a profile's recent activity and older search results, run it once per period.
+5. If posts cannot be accessed, deliver a profile-only audit with clear gaps. If even the profile is inaccessible, ask for public links or an export before making profile-specific findings.
 
 ## Interpret the sample
 
