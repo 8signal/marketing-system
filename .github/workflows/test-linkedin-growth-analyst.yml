@@ -1,0 +1,26 @@
+name: Test LinkedIn Growth Analyst
+
+on:
+  pull_request:
+    paths:
+      - 'skills/8signal-linkedin-growth-analyst/**'
+      - '.github/workflows/test-linkedin-growth-analyst.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'skills/8signal-linkedin-growth-analyst/**'
+      - '.github/workflows/test-linkedin-growth-analyst.yml'
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run analyzer tests
+        run: python -m unittest discover -s skills/8signal-linkedin-growth-analyst/scripts -v
